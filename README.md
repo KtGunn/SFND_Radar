@@ -51,15 +51,15 @@ This section explains the simulation of a moving target--intial range and speed,
 
 The signal of a FMCW transmitter is:
 
-_Tx = cos (2*&pi*(fc + &alpha*t/2)*t_
+_Tx = cos (2*pi*(fc + Slope*t/2)*t_
 
 The return signal is the same except for a shift in time, t-&tau
 
-_Rx = cos (2*&pi*(fc + &alpha*(t-$tau)/2)*(t-&tau)_
+_Rx = cos (2*pi*(fc + Slope*(t-Tau)/2)*(t-Tau)_
 
-&tau simly is the time is takes the signal to make the roundtrip from the tranmitter/receiver to the target
+Tau simly is the time is takes the signal to make the roundtrip from the tranmitter/receiver to the target
 
-_$tau = 2*range/c_
+_Tau = 2*range/c_
 
 From the code:
 
