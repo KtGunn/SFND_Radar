@@ -28,8 +28,8 @@ The chirp bandwidth is related to the required range resolution; smaller the res
 
 From the code:
 
-
-`%%%%%%%%%%%%%%%%%%%%%%%%%%%
+```
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Frequency of operation = 77GHz
 % Max Range = 200m
 % Range Resolution = 1 m
@@ -40,7 +40,8 @@ r_resolution = 1; % range resolution
 r_max = 200;      % maximum radar range
 c = 3e8;          % speed of light
 
-B = c/r_resolution/2;   % sweep height
-Tchirp = 5.5*2*r_max/c; % 5.5*max_round_time=5.5*(2*rMax/c)
-Slope = B/Tchirp;`
+B = c/r_resolution/2;    % sweep height
+Tchirp = 5.5*2*r_max/c;  % 5.5*max_round_time=5.5*(2*rMax/c)
+Slope = B/Tchirp;
+```
 
