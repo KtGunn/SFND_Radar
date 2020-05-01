@@ -85,3 +85,42 @@ for i=1:length(t)
 
 end
 ```
+
+
+## Range FFT
+
+The Range FFT should reveal the initial range given to the simulated vehivle, which was 50m. From the code:
+
+```
+ % reshape the vector into Nr*Nd array.
+ %  Nr and Nd here would also define the size of Range & Doppler FFT's resp.
+ map = reshape (Mix,[Nr,Nd]); % each column is a 'chirp' or Nr samples
+
+ % run the FFT on the beat signal along the range bins dimension (Nr) and
+ % normalize.
+ map_fft = fft(map,Nr);
+
+ % Take the absolute value of FFT output
+ map_fft = abs(map_fft)/Nr;
+
+
+ % Output of FFT is double sided signal, but we are interested in only one side of the spectrum.
+ % Hence we throw out half of the samples.
+ map_fft=map_fft(1:Nr/2+1);
+ map_fft(1:end-1) = map_fft(1:end-1)*2;
+
+ %plotting the range
+ figure ('Name','Range from First FFT')
+ subplot(2,1,1)
+
+  % plot FFT output
+  plot(map_fft);
+  title('Range FFT');
+  xlabel('Frequency');
+  ylabel ('Normalized magnitude');
+  axis ([0 200 0 1]);
+```
+
+Image below is the plot, 'Range FFT'.
+
+<img src="./images/range-fft.png">
