@@ -53,7 +53,7 @@ The signal of a FMCW transmitter is:
 
 _Tx = cos (2*pi*(fc + Slope*t/2)*t_
 
-The return signal is the same except for a shift in time, t-&tau
+The return signal is the same except for a shift in time, t-Tau
 
 _Rx = cos (2*pi*(fc + Slope*(t-Tau)/2)*(t-Tau)_
 
