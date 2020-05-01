@@ -14,6 +14,6 @@ The purpose of the project was to use MATLAB to first generate radar signals fro
 
 The sequence of operations is shown in the figure below
 
-<img src="./images/project_flow.png>
+<img src="./images/project_flow.png">
 
 
