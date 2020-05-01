@@ -45,3 +45,43 @@ Tchirp = 5.5*2*r_max/c;  % 5.5*max_round_time=5.5*(2*rMax/c)
 Slope = B/Tchirp;
 ```
 
+## Radar Signature
+
+This section explains the simulation of a moving target--intial range and speed, assumed constant is set--and the signals transmitted and received from it using our FMCW design above.
+
+The signal of a FMCW transmitter is:
+
+_Tx = cos (2*&pi*(fc + &alpha*t/2)*t_
+
+The return signal is the same except for a shift in time, t-&tau
+
+_Rx = cos (2*&pi*(fc + &alpha*(t-$tau)/2)*(t-&tau)_
+
+&tau simly is the time is takes the signal to make the roundtrip from the tranmitter/receiver to the target
+
+_$tau = 2*range/c_
+
+From the code:
+
+```
+for i=1:length(t)
+
+    % For each time stamp update the Range of the Target for constant velocity.
+    t = i*Tchirp/Nr;
+    r = ro + vo*t;
+
+    % For each time sample we need update the transmitted and
+    % received signal.
+    Tx(i) = cos(2*pi*(fc + 0.5*Slope*t)*t);
+
+    td = t - (2*r/c);  % signal round time to transmitter
+    Rx(i) = cos(2*pi*(fc + 0.5*Slope*td)*td);
+
+    % Now by mixing the Transmit and Receive generate the beat signal
+    % This is done by element wise matrix multiplication of Transmit and
+
+    % Receiver Signal
+    Mix(i) = Tx(i).*Rx(i);  % order is immaterial
+
+end
+```
