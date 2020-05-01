@@ -129,4 +129,4 @@ Image below is the plot, 'Range FFT'.
 
 The figure below show the results of performing 2D FFT on the collection of chirps generated above.
 
-<img src="./images/range-fft.png">
+<img src="./images/fft-range-doppler.png">
