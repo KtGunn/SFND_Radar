@@ -124,3 +124,9 @@ The Range FFT should reveal the initial range given to the simulated vehivle, wh
 Image below is the plot, 'Range FFT'.
 
 <img src="./images/range-fft.png">
+
+## 2D Range/Doppler FFT
+
+The figure below show the results of performing 2D FFT on the collection of chirps generated above.
+
+<img src="./images/range-fft.png">
