@@ -139,13 +139,13 @@ The Constant False Alarm Rate or CFAR method was implemented. The figure below e
 
 <img src="./images/ca_cfar.png">
 
-Every cell in the Range Doppler Map is investigated by comparing its value to values of surrounding cells. If the cell, called the 'CUT', has higher value than the average of the surrounding cells, the 'Training cells,' it is elevated to one else dropped to zero. 'Guard' cells around the CUT are left out of the averaging process. This is so that the CUT will be isolated from the neighboring cells, especially important if the CUT has a strong csignal. A strong CUT is likely to 'bleed' into neighboring cells thus raising the estimate of its surrounding noise floor.
+Every cell in the Range Doppler Map is investigated by comparing its value to values of surrounding cells. If the cell, called the 'CUT', has higher value than the average of the surrounding cells, the 'Training cells,' it is elevated to one else dropped to zero. 'Guard' cells around the CUT are left out of the averaging process. This is to isolate the CUT from neighboring cells. A strong CUT is likely to 'bleed' into neighboring cells thus raising the estimate of its surrounding noise floor.
 
 The image below is the result of applying CFAR thesholding on the Range Doppler Map above.
 
-<img src="./images/sd_cfar.png">
+<img src="./images/ca_cfar.png">
 
-The key to CFAR is setting the parameters of numer of training and guard cells. Generally, in a dense target scenario with many peaks closely spaced, the number of training cells is kept low. In a target spare scenario the number of traning cells can be raised. For strong signals, number of guard cells is high and low in weaker signal environments. With a given set of training and guard cells, a cell's surrounding noise level can be accurately estimated. To ensure that the CFAR threshold rises above random noise peaks, an additional offset is added to it.
+Key to CFAR is setting the parameters of number of training and guard cells. Generally, in a dense target scenario with many peaks closely spaced, the number of training cells is kept low. In a target sparse scenario the number of traning cells can be raised. For strong signals, number of guard cells is high and low in weaker signal environments. With a given set of training and guard cells, a cell's surrounding noise level can be accurately estimated. To ensure that the CFAR threshold rises above random noise peaks, an additional offset is added.
 
 From the matlab code,
 
@@ -179,14 +179,14 @@ for i=Tr+Gr+1:(Nr/2)-(Gr+Tr)
    end
 end
 ```
-Note that because of the training and guard cells around the cut, a band of cells all around the perimetry of the Range Doppler Map will not be tested. Those are set to zero.
+Note that because of the training and guard cells around the cut, a band of cells all around the perimeter of the Range Doppler Map will not be tested. Those are set to zero.
 
 ```
 RDM(RDM ~= 0 & RDM ~= 1 ) = 0;
 
 ```
 
-The present case is simple with only one target and a clean signal. It was found that the number of guard and training cells could be kept low; results were good. The offset exhibited a more pronounced effect. If it was dropped below a certain value (approx 10db) the target was lost in the noise floor.
+The present case is simple with only one target and a clean signal. It was found that the number of guard and training was non-critical; counts could be kept low with results generally good. The offset exhibited a more pronounced effect; below a certain value (approx 10db) the target was lost in the noise floor.
 
 From the code,
 ```
