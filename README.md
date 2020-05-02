@@ -130,3 +130,75 @@ Image below is the plot, 'Range FFT'.
 The figure below show the results of performing 2D FFT on the collection of chirps generated above.
 
 <img src="./images/range_doppler_map.png">
+
+## Target Detection
+
+Target detection is the process of isolating signals representing targets from random signal noise. As seen in the Range Doppler Map above, a distinctive signal peak is present. This peak is the radar signature of the vehicle simluated above. When there are numerous targets in a radar's view, multiple peaks rise above the noise floor in the Range Doppler Map. Targets are isolated and detected by reshaping the Range Doppler Map. Mathematically, the operation is thresholding; the noise floor is dropped to absolute zero and target peaks narrowed and raised to value of one.
+
+The Constant False Alarm Rate or CFAR method was implemented. The figure below explains the approach.
+
+<img src="./images/ca_cfar.png">
+
+Every cell in the Range Doppler Map is investigated by comparing its value to values of surrounding cells. If the cell, called the 'CUT', has higher value than the average of the surrounding cells, the 'Training cells,' it is elevated to one else dropped to zero. 'Guard' cells around the CUT are left out of the averaging process. This is so that the CUT will be isolated from the neighboring cells, especially important if the CUT has a strong csignal. A strong CUT is likely to 'bleed' into neighboring cells thus raising the estimate of its surrounding noise floor.
+
+The image below is the result of applying CFAR thesholding on the Range Doppler Map above.
+
+<img src="./images/sd_cfar.png">
+
+The key to CFAR is setting the parameters of numer of training and guard cells. Generally, in a dense target scenario with many peaks closely spaced, the number of training cells is kept low. In a target spare scenario the number of traning cells can be raised. For strong signals, number of guard cells is high and low in weaker signal environments. With a given set of training and guard cells, a cell's surrounding noise level can be accurately estimated. To ensure that the CFAR threshold rises above random noise peaks, an additional offset is added to it.
+
+From the matlab code,
+
+```
+patch = (2*(Tr+Gr)+1)*(2*(Td+Gd)+1);
+core = (2*Gr+1)*(2*Gd+1);
+
+for i=Tr+Gr+1:(Nr/2)-(Gr+Tr)
+    for j=Td+Gd+1:Nd-(Gd+Td)
+       noise_level=0;
+       % We have a (2(Tr+Gr)+1)x(2(Td+Gd)+1) patch to sum over
+       for p=i-(Tr+Gr):i+(Tr+Gr)
+           for q=j-(Td+Gd):j+(Td+Gd)
+              if (abs(j-q) > Gd || abs(i-p) > Gr)
+                   noise_level=noise_level+db2pow(RDM(p,q));
+              end
+           end
+       end
+       % Set the 'threshold' by averaging...
+       threshold=pow2db(noise_level/(patch-core));
+       % ...and adding SNR offset
+       threshold=threshold + offset;
+
+       % Clip the CUT against the threshold
+       CUT=RDM(i,j);
+       if(CUT<threshold)
+            RDM(i,j) = 0;
+       else
+            RDM(i,j) = 1;
+       end
+   end
+end
+```
+Note that because of the training and guard cells around the cut, a band of cells all around the perimetry of the Range Doppler Map will not be tested. Those are set to zero.
+
+```
+RDM(RDM ~= 0 & RDM ~= 1 ) = 0;
+
+```
+
+The present case is simple with only one target and a clean signal. It was found that the number of guard and training cells could be kept low; results were good. The offset exhibited a more pronounced effect. If it was dropped below a certain value (approx 10db) the target was lost in the noise floor.
+
+From the code,
+```
+Tr=4; %10
+Td=4;  %8
+
+%Select the number of Guard Cells in both dimensions around the Cell under
+%test (CUT) for accurate estimation
+Gr=2; %4
+Gd=2; %d
+
+% offset the threshold by SNR value in dB
+offset=10;
+
+```
