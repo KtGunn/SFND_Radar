@@ -137,7 +137,7 @@ Target detection is the process of isolating signals representing targets from r
 
 The Constant False Alarm Rate or CFAR method was implemented. The figure below explains the approach.
 
-<img src="./images/ca_cfar.png">
+<img src="./images/2d-cfar.png">
 
 Every cell in the Range Doppler Map is investigated by comparing its value to values of surrounding cells. If the cell, called the 'CUT', has higher value than the average of the surrounding cells, the 'Training cells,' it is elevated to one else dropped to zero. 'Guard' cells around the CUT are left out of the averaging process. This is to isolate the CUT from neighboring cells. A strong CUT is likely to 'bleed' into neighboring cells thus raising the estimate of its surrounding noise floor.
 
