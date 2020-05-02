@@ -186,7 +186,7 @@ RDM(RDM ~= 0 & RDM ~= 1 ) = 0;
 
 ```
 
-The present case is simple with only one target and a clean signal. It was found that the number of guard and training was non-critical; counts could be kept low with results generally good. The offset exhibited a more pronounced effect; below a certain value (approx 10db) the target was lost in the noise floor.
+The present case is simple with only one target and a clean signal. It was found that the number of guard and training cells was non-critical; counts could be kept high or low with results generally good. The offset exhibited a more pronounced effect; below a certain value (approx 10db) the target was lost in the noise floor.
 
 From the code,
 ```
