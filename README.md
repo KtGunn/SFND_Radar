@@ -16,7 +16,7 @@ The sequence of operations is shown in the figure below
 
 <img src="./images/project_flow.png">
 
-The matlab code to perform the operations is included in the directory 'matlab'. The code is contained in the file 'RadarProject.mlx.' Parts of that file will be copied to this page and discussed to explain how the above steps were performed.
+The matlab code to perform the operations is included in the directory 'matlab'. The code is contained in the file 'RadarProject.m.' Parts of that file will be copied to this page and discussed to explain how the above steps were performed.
 
 ## FMCW Signal Design
 
